@@ -31,7 +31,7 @@ export function Header() {
   };
 
   return (
-    <header className="sticky top-0 z-50 border-b border-black/10 bg-[#f7f3ee]/95 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-ink/95 text-white backdrop-blur">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-10">
         <button className="lg:hidden" onClick={() => setOpen(!open)} aria-label="Menu" aria-expanded={open}>
           {open ? <X /> : <Menu />}
@@ -43,28 +43,28 @@ export function Header() {
 
         <nav className="hidden items-center gap-8 lg:flex">
           {NAV_LINKS.map((link) => (
-            <Link key={link.label} href={link.href} className="text-sm hover:opacity-60">
+            <Link key={link.label} href={link.href} className="text-sm text-white/85 transition hover:text-gold">
               {link.label}
             </Link>
           ))}
         </nav>
 
         <div className="flex items-center gap-4">
-          <button aria-label="Search" aria-expanded={searchOpen} onClick={() => setSearchOpen(!searchOpen)}>
+          <button aria-label="Search" aria-expanded={searchOpen} onClick={() => setSearchOpen(!searchOpen)} className="transition hover:text-gold">
             <Search className="h-5 w-5" />
           </button>
-          <Link href="/wishlist" className="relative" aria-label="Wishlist">
+          <Link href="/wishlist" className="relative transition hover:text-gold" aria-label="Wishlist">
             <Heart className="h-5 w-5" />
             {productIds.length > 0 && (
-              <span className="absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-ink px-1 text-[9px] text-white">
+              <span className="absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-gold px-1 text-[9px] font-semibold text-ink">
                 {productIds.length}
               </span>
             )}
           </Link>
-          <Link href="/cart" className="relative" aria-label="Cart">
+          <Link href="/cart" className="relative transition hover:text-gold" aria-label="Cart">
             <ShoppingBag className="h-5 w-5" />
             {totalItems > 0 && (
-              <span className="absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-ink px-1 text-[9px] text-white">
+              <span className="absolute -right-2 -top-2 flex h-4 min-w-4 items-center justify-center rounded-full bg-gold px-1 text-[9px] font-semibold text-ink">
                 {totalItems}
               </span>
             )}
@@ -73,30 +73,30 @@ export function Header() {
       </div>
 
       {searchOpen && (
-        <div className="border-t border-black/10 bg-[#f7f3ee] px-6 py-4 lg:px-10">
+        <div className="border-t border-white/10 bg-ink px-6 py-4 lg:px-10">
           <form onSubmit={handleSearch} className="mx-auto flex max-w-7xl items-center gap-3">
-            <Search className="h-4 w-4 shrink-0 text-black/40" />
+            <Search className="h-4 w-4 shrink-0 text-white/40" />
             <input
               autoFocus
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Search sneakers, slides, shirts..."
-              className="w-full bg-transparent py-1 text-sm outline-none placeholder:text-black/40"
+              className="w-full bg-transparent py-1 text-sm text-white outline-none placeholder:text-white/40"
             />
           </form>
         </div>
       )}
 
       {open && (
-        <div className="border-t border-black/10 bg-[#f7f3ee] px-6 py-6 lg:hidden">
-          <nav className="flex flex-col gap-5">
+        <div className="border-t border-white/10 bg-ink px-6 py-6 lg:hidden">
+          <nav className="flex flex-col gap-5 text-white/85">
             {NAV_LINKS.map((link) => (
-              <Link key={link.label} href={link.href} onClick={() => setOpen(false)}>
+              <Link key={link.label} href={link.href} onClick={() => setOpen(false)} className="hover:text-gold">
                 {link.label}
               </Link>
             ))}
-            <Link href="/wishlist" onClick={() => setOpen(false)}>Wishlist</Link>
+            <Link href="/wishlist" onClick={() => setOpen(false)} className="hover:text-gold">Wishlist</Link>
           </nav>
         </div>
       )}

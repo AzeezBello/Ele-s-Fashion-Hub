@@ -13,7 +13,8 @@ const config: Config = {
         ink: "#171513",
         cream: "#F7F3EE",
         sand: "#E8DED3",
-        taupe: "#A99585"
+        taupe: "#A99585",
+        gold: "#E0B654"
       },
       fontFamily: {
         sans: ["var(--font-inter)"],
