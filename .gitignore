@@ -10,9 +10,6 @@ out/
 .env.local
 .env*.local
 
-# local data
-data/
-
 # typescript
 *.tsbuildinfo
 next-env.d.ts
