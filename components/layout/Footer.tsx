@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import { Instagram, Facebook, Music2, Phone } from "lucide-react";
+import { Instagram, Facebook, Music2, Phone, MessageCircle } from "lucide-react";
+import { buildWhatsAppUrl } from "@/lib/whatsapp";
 
 export function Footer() {
   return (
@@ -12,6 +13,14 @@ export function Footer() {
             Fashion for all. Deadstock sneakers, slides and streetwear curated for everyone.
           </p>
           <div className="mt-6 flex flex-col gap-3 text-sm text-white/70">
+            <a
+              href={buildWhatsAppUrl("Hi Ele's Hub! I have a question about an item.")}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 text-gold hover:text-white"
+            >
+              <MessageCircle className="h-4 w-4" /> Order or ask on WhatsApp
+            </a>
             <span className="inline-flex items-center gap-2"><Instagram className="h-4 w-4" /> @Elesfashionhub</span>
             <span className="inline-flex items-center gap-2"><Facebook className="h-4 w-4" /> Ele&rsquo;sFashionHub</span>
             <span className="inline-flex items-center gap-2"><Music2 className="h-4 w-4" /> @elesfashion.hub</span>

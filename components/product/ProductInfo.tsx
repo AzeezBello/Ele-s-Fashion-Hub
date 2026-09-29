@@ -1,12 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { Heart } from "lucide-react";
+import Link from "next/link";
+import { Heart, MessageCircle } from "lucide-react";
 import { Product } from "@/types/product";
 import { formatPrice } from "@/data/products";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/components/cart/CartProvider";
 import { useWishlist } from "@/components/wishlist/WishlistProvider";
+import { buildProductEnquiryUrl } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
 export function ProductInfo({ product }: { product: Product }) {
@@ -21,9 +23,16 @@ export function ProductInfo({ product }: { product: Product }) {
     <div className="lg:sticky lg:top-28 lg:self-start">
       <p className="text-xs uppercase tracking-[0.2em] text-black/45">{product.category}</p>
       <h1 className="mt-3 font-serif text-4xl md:text-5xl">{product.name}</h1>
-      <div className="mt-4 flex items-center gap-3">
-        <span className="text-lg">{formatPrice(product.price)}</span>
-        {product.compareAtPrice && <span className="text-black/35 line-through">{formatPrice(product.compareAtPrice)}</span>}
+      <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-1">
+        <span className="text-xl font-semibold">{formatPrice(product.price)}</span>
+        {product.compareAtPrice && (
+          <>
+            <span className="text-black/35 line-through">{formatPrice(product.compareAtPrice)}</span>
+            <span className="bg-gold/20 px-2 py-0.5 text-xs font-semibold text-[#8a6a1c]">
+              Save {formatPrice(product.compareAtPrice - product.price)}
+            </span>
+          </>
+        )}
       </div>
       <p className="mt-6 leading-7 text-black/60">{product.description}</p>
       {!product.inStock && (
@@ -65,10 +74,18 @@ export function ProductInfo({ product }: { product: Product }) {
           <Heart className={cn("h-5 w-5", wishlisted && "fill-ink text-ink")} />
         </button>
       </div>
+      <a
+        href={buildProductEnquiryUrl(product, size, color)}
+        target="_blank"
+        rel="noreferrer"
+        className="mt-3 inline-flex w-full items-center justify-center gap-2 border border-[#25D366] px-5 py-3 text-sm font-semibold text-[#128C7E] transition hover:bg-[#25D366] hover:text-white"
+      >
+        <MessageCircle className="h-4 w-4" /> Order on WhatsApp
+      </a>
 
       <div className="mt-8 space-y-4 border-t border-black/10 pt-6 text-sm">
-        <p><strong>Shipping:</strong> Delivery options are shown at checkout.</p>
-        <p><strong>Returns:</strong> Eligible items can be returned according to our return policy.</p>
+        <p><strong>Delivery:</strong> Fee confirmed on WhatsApp — Lagos in 1&ndash;2 days, nationwide in 2&ndash;5.</p>
+        <p><strong>Returns:</strong> Unworn items in original packaging within 3 days. <Link href="/faq#returns" className="underline underline-offset-4">See policy</Link>.</p>
       </div>
     </div>
   );

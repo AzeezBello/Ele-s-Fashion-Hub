@@ -38,7 +38,7 @@ export default async function ShopPage({ searchParams }: { searchParams: Promise
         <p className="mt-4 max-w-xl text-black/60">
           {params.q
             ? `${filtered.length} result${filtered.length === 1 ? "" : "s"} for “${params.q}”`
-            : "Deadstock sneakers, slides and streetwear — curated for everyone."}
+            : `${filtered.length} piece${filtered.length === 1 ? "" : "s"} — deadstock sneakers, slides and streetwear, curated for everyone.`}
         </p>
       </div>
       <Suspense>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { SlidersHorizontal } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { categories } from "@/data/products";
 import { cn } from "@/lib/utils";
 
@@ -33,26 +33,26 @@ export function ShopFilters() {
             key={item}
             href={buildHref({ category: item === "All" ? null : item })}
             className={cn(
-              "px-3 py-2 text-xs font-semibold transition",
-              activeCategory === item ? "bg-ink text-white" : "bg-white/60 hover:bg-white"
+              "border px-3 py-2 text-xs font-semibold transition",
+              activeCategory === item ? "border-ink bg-ink text-white" : "border-black/10 bg-white/60 hover:border-ink"
             )}
           >
             {item}
           </Link>
         ))}
       </div>
-      <label className="inline-flex items-center gap-2 text-sm">
-        <SlidersHorizontal className="h-4 w-4" />
+      <label className="relative inline-flex items-center text-sm">
+        <span className="sr-only">Sort products</span>
         <select
-          aria-label="Sort products"
           value={sort}
           onChange={(event) => router.push(buildHref({ sort: event.target.value === "newest" ? null : event.target.value }))}
-          className="bg-transparent outline-none"
+          className="appearance-none border border-black/10 bg-white/60 py-2 pl-3 pr-9 text-xs font-semibold outline-none transition hover:border-ink"
         >
-          <option value="newest">Newest</option>
+          <option value="newest">Sort: Newest</option>
           <option value="price-asc">Price: Low to High</option>
           <option value="price-desc">Price: High to Low</option>
         </select>
+        <ChevronDown className="pointer-events-none absolute right-3 h-4 w-4" />
       </label>
     </div>
   );

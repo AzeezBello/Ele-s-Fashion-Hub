@@ -4,7 +4,8 @@ import { products } from "@/data/products";
 import { ProductCard } from "@/components/shop/ProductCard";
 
 export function FeaturedProducts() {
-  const featured = products.filter((p) => p.featured);
+  // Four fills the desktop row and the 2×2 mobile grid without an orphan card.
+  const featured = products.filter((p) => p.featured).slice(0, 4);
   return (
     <section className="bg-white/50 py-16 lg:py-24">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
@@ -18,6 +19,9 @@ export function FeaturedProducts() {
         <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-4 md:gap-x-6">
           {featured.map((product) => <ProductCard product={product} key={product.id} />)}
         </div>
+        <Link href="/shop" className="mt-10 flex items-center justify-center gap-2 border border-black/15 py-3 text-sm font-semibold transition hover:border-ink sm:hidden">
+          Shop all <ArrowRight className="h-4 w-4" />
+        </Link>
       </div>
     </section>
   );

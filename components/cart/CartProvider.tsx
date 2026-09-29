@@ -16,6 +16,7 @@ type CartContextType = {
   addItem: (product: Product, size: string, color: string) => void;
   removeItem: (key: string) => void;
   updateQuantity: (key: string, quantity: number) => void;
+  clearCart: () => void;
   subtotal: number;
   totalItems: number;
 };
@@ -24,15 +25,18 @@ const CartContext = createContext<CartContextType | null>(null);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem("ele-fashion-cart");
     if (stored) setItems(JSON.parse(stored));
+    setHydrated(true);
   }, []);
 
+  // Don't persist until the stored cart has been loaded, or the initial empty state overwrites it.
   useEffect(() => {
-    localStorage.setItem("ele-fashion-cart", JSON.stringify(items));
-  }, [items]);
+    if (hydrated) localStorage.setItem("ele-fashion-cart", JSON.stringify(items));
+  }, [items, hydrated]);
 
   const addItem = (product: Product, size: string, color: string) => {
     const key = `${product.id}-${size}-${color}`;
@@ -48,12 +52,14 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     if (quantity <= 0) return removeItem(key);
     setItems((current) => current.map((item) => item.key === key ? { ...item, quantity } : item));
   };
+  const clearCart = () => setItems([]);
 
   const value = useMemo(() => ({
     items,
     addItem,
     removeItem,
     updateQuantity,
+    clearCart,
     subtotal: items.reduce((sum, item) => sum + item.product.price * item.quantity, 0),
     totalItems: items.reduce((sum, item) => sum + item.quantity, 0)
   }), [items]);

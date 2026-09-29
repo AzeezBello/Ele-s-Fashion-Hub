@@ -15,9 +15,15 @@ body {
   color: #171513;
   font-family: var(--font-inter), Arial, Helvetica, sans-serif;
 }
-button, input, select { font: inherit; }
+button, input, select, textarea { font: inherit; }
 button { cursor: pointer; }
 img, video { max-width: 100%; display: block; }
+::selection { background: #e0b654; color: #171513; }
+
+@layer base {
+  :focus-visible { outline: 2px solid #e0b654; outline-offset: 2px; }
+  h1, h2, h3 { text-wrap: balance; }
+}
 
 @layer utilities {
   .text-balance { text-wrap: balance; }

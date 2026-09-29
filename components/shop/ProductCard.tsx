@@ -15,6 +15,9 @@ export function ProductCard({ product }: { product: Product }) {
   const { isWishlisted, toggle } = useWishlist();
   const [added, setAdded] = useState(false);
   const wishlisted = isWishlisted(product.id);
+  const discount = product.compareAtPrice
+    ? Math.round((1 - product.price / product.compareAtPrice) * 100)
+    : 0;
 
   const handleQuickAdd = () => {
     addItem(product, product.sizes[0], product.colors[0]);
@@ -39,9 +42,14 @@ export function ProductCard({ product }: { product: Product }) {
             Sold out
           </span>
         )}
-        {product.newArrival && (
-          <span className="absolute left-3 top-3 bg-white px-2 py-1 text-[10px] font-semibold uppercase tracking-wider">New</span>
-        )}
+        <div className="absolute left-3 top-3 flex flex-col gap-1.5">
+          {product.newArrival && (
+            <span className="bg-white px-2 py-1 text-[10px] font-semibold uppercase tracking-wider">New</span>
+          )}
+          {discount > 0 && (
+            <span className="bg-gold px-2 py-1 text-[10px] font-semibold uppercase tracking-wider text-ink">-{discount}%</span>
+          )}
+        </div>
         <button
           onClick={() => toggle(product)}
           aria-label={wishlisted ? "Remove from wishlist" : "Add to wishlist"}
@@ -57,7 +65,7 @@ export function ProductCard({ product }: { product: Product }) {
           <h3 className="mt-1 text-sm font-medium">{product.name}</h3>
         </Link>
         <div className="mt-1 flex items-center gap-2 text-sm">
-          <span>{formatPrice(product.price)}</span>
+          <span className="font-semibold">{formatPrice(product.price)}</span>
           {product.compareAtPrice && <span className="text-black/35 line-through">{formatPrice(product.compareAtPrice)}</span>}
         </div>
         <button
@@ -65,7 +73,8 @@ export function ProductCard({ product }: { product: Product }) {
           disabled={!product.inStock}
           className={cn(
             "mt-3 w-full border py-2 text-xs font-semibold transition disabled:cursor-not-allowed disabled:opacity-40",
-            added ? "border-ink bg-ink text-white" : "border-black/20 hover:bg-ink hover:text-white"
+            "md:translate-y-1 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100 md:focus-visible:translate-y-0 md:focus-visible:opacity-100",
+            added ? "border-ink bg-ink text-white md:translate-y-0 md:opacity-100" : "border-black/20 hover:bg-ink hover:text-white"
           )}
         >
           {!product.inStock ? "Sold out" : added ? "Added to bag" : "Quick add"}

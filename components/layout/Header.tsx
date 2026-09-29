@@ -2,11 +2,13 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { Search, ShoppingBag, Heart, Menu, X } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { Search, ShoppingBag, Heart, Menu, X, MessageCircle } from "lucide-react";
 import { FormEvent, useState } from "react";
 import { useCart } from "@/components/cart/CartProvider";
 import { useWishlist } from "@/components/wishlist/WishlistProvider";
+import { buildWhatsAppUrl } from "@/lib/whatsapp";
+import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
   { href: "/", label: "Home" },
@@ -22,6 +24,13 @@ export function Header() {
   const { totalItems } = useCart();
   const { productIds } = useWishlist();
   const router = useRouter();
+  const pathname = usePathname();
+
+  const isActive = (href: string) => {
+    const path = href.split("?")[0];
+    if (href.includes("?")) return false;
+    return path === "/" ? pathname === "/" : pathname.startsWith(path);
+  };
 
   const handleSearch = (event: FormEvent) => {
     event.preventDefault();
@@ -32,6 +41,16 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-ink/95 text-white backdrop-blur">
+      <a
+        href={buildWhatsAppUrl("Hi Ele's Hub! I'd like to place an order.")}
+        target="_blank"
+        rel="noreferrer"
+        className="flex h-9 items-center justify-center gap-2 whitespace-nowrap bg-gold px-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-ink transition hover:bg-[#e8c36a] sm:tracking-[0.18em]"
+      >
+        <MessageCircle className="h-3.5 w-3.5 shrink-0" />
+        <span className="sm:hidden">Order on WhatsApp — tap to chat</span>
+        <span className="hidden sm:inline">We take orders on WhatsApp — tap to chat</span>
+      </a>
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-10">
         <button className="lg:hidden" onClick={() => setOpen(!open)} aria-label="Menu" aria-expanded={open}>
           {open ? <X /> : <Menu />}
@@ -42,11 +61,22 @@ export function Header() {
         </Link>
 
         <nav className="hidden items-center gap-8 lg:flex">
-          {NAV_LINKS.map((link) => (
-            <Link key={link.label} href={link.href} className="text-sm text-white/85 transition hover:text-gold">
-              {link.label}
-            </Link>
-          ))}
+          {NAV_LINKS.map((link) => {
+            const active = isActive(link.href);
+            return (
+              <Link
+                key={link.label}
+                href={link.href}
+                aria-current={active ? "page" : undefined}
+                className={cn(
+                  "relative py-1 text-sm transition hover:text-gold",
+                  active ? "text-gold after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:bg-gold" : "text-white/85"
+                )}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
         </nav>
 
         <div className="flex items-center gap-4">

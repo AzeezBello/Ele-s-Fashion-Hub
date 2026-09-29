@@ -25,9 +25,9 @@ export function CartView() {
       <div className="space-y-5">
         {items.map((item) => (
           <div key={item.key} className="flex gap-4 border-b border-black/10 pb-5">
-            <div className="relative h-32 w-24 shrink-0 overflow-hidden bg-sand">
+            <Link href={`/product/${item.product.slug}`} className="relative block h-32 w-24 shrink-0 overflow-hidden bg-sand">
               <Image src={item.product.images[0]} alt={item.product.name} fill sizes="96px" className="object-cover" />
-            </div>
+            </Link>
             <div className="flex flex-1 flex-col">
               <div className="flex justify-between gap-4">
                 <div>
@@ -38,17 +38,19 @@ export function CartView() {
               </div>
               <div className="mt-auto flex items-center justify-between pt-5">
                 <div className="flex items-center border border-black/15">
-                  <button onClick={() => updateQuantity(item.key, item.quantity - 1)} className="p-2"><Minus className="h-3 w-3" /></button>
-                  <span className="w-8 text-center text-sm">{item.quantity}</span>
-                  <button onClick={() => updateQuantity(item.key, item.quantity + 1)} className="p-2"><Plus className="h-3 w-3" /></button>
+                  <button onClick={() => updateQuantity(item.key, item.quantity - 1)} aria-label="Decrease quantity" className="p-2 transition hover:bg-black/5"><Minus className="h-3 w-3" /></button>
+                  <span className="w-8 text-center text-sm" aria-live="polite">{item.quantity}</span>
+                  <button onClick={() => updateQuantity(item.key, item.quantity + 1)} aria-label="Increase quantity" className="p-2 transition hover:bg-black/5"><Plus className="h-3 w-3" /></button>
                 </div>
-                <button onClick={() => removeItem(item.key)} className="text-black/50 hover:text-black"><Trash2 className="h-4 w-4" /></button>
+                <button onClick={() => removeItem(item.key)} aria-label={`Remove ${item.product.name}`} className="text-black/50 transition hover:text-black"><Trash2 className="h-4 w-4" /></button>
               </div>
             </div>
           </div>
         ))}
       </div>
-      <CartSummary subtotal={subtotal} />
+      <div className="lg:sticky lg:top-36 lg:self-start">
+        <CartSummary subtotal={subtotal} />
+      </div>
     </div>
   );
 }

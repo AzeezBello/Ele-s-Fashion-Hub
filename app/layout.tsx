@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     template: "%s | Ele's Hub"
   },
   description,
-  metadataBase: new URL("https://elefashionhub.com"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://elefashionhub.com"),
   openGraph: {
     title,
     description,

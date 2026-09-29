@@ -21,7 +21,9 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-black/35" />
         <div className="relative mx-auto flex min-h-[78vh] max-w-7xl items-end px-6 pb-16 lg:px-10 lg:pb-24">
           <div className="max-w-2xl">
-            <p className="mb-5 text-xs font-semibold uppercase tracking-[0.28em]">Fashion for all</p>
+            <p className="mb-5 inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.28em] text-gold">
+              <span className="h-px w-8 bg-gold" /> Fashion for all
+            </p>
             <h1 className="font-serif text-5xl leading-[0.95] md:text-7xl">
               Dress the way you feel.
             </h1>
@@ -29,13 +31,20 @@ export default function HomePage() {
               Authentic deadstock sneakers, slides and streetwear essentials &mdash; curated by Ele&rsquo;s Hub for everyone.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link href="/shop" className="inline-flex items-center gap-2 bg-white px-6 py-3 text-sm font-semibold text-ink transition hover:bg-white/90">
+              <Link href="/shop" className="inline-flex items-center gap-2 bg-gold px-6 py-3 text-sm font-semibold text-ink transition hover:bg-[#e8c36a]">
                 Shop collection <ArrowRight className="h-4 w-4" />
               </Link>
-              <Link href="/shop?category=New%20Arrivals" className="border border-white/50 px-6 py-3 text-sm font-semibold transition hover:bg-white/10">
+              <Link href="/shop?category=New%20Arrivals" className="border border-white/50 px-6 py-3 text-sm font-semibold transition hover:border-white hover:bg-white/10">
                 New arrivals
               </Link>
             </div>
+            <ul className="mt-10 flex flex-wrap gap-x-6 gap-y-2 text-xs font-medium uppercase tracking-[0.15em] text-white/70">
+              {["Authentic pieces only", "Sneakers · Slides · Shirts", "Order on WhatsApp"].map((item) => (
+                <li key={item} className="inline-flex items-center gap-2">
+                  <span className="h-1.5 w-1.5 rounded-full bg-gold" /> {item}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>

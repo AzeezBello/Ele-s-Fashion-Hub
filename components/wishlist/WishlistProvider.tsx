@@ -14,15 +14,18 @@ const STORAGE_KEY = "ele-fashion-wishlist";
 
 export function WishlistProvider({ children }: { children: React.ReactNode }) {
   const [productIds, setProductIds] = useState<string[]>([]);
+  const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) setProductIds(JSON.parse(stored));
+    setHydrated(true);
   }, []);
 
+  // Don't persist until the stored list has been loaded, or the initial empty state overwrites it.
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(productIds));
-  }, [productIds]);
+    if (hydrated) localStorage.setItem(STORAGE_KEY, JSON.stringify(productIds));
+  }, [productIds, hydrated]);
 
   const toggle = (product: Product) => {
     setProductIds((current) =>
