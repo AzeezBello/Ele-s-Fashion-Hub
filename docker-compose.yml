@@ -1,0 +1,13 @@
+services:
+  web:
+    build:
+      context: .
+      args:
+        # Interpolated at build time from the shell or an env file. Compose only auto-loads
+        # ".env", so pass yours explicitly: docker compose --env-file .env.local up --build
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+        NEXT_PUBLIC_WHATSAPP_NUMBER: ${NEXT_PUBLIC_WHATSAPP_NUMBER:-2349167593804}
+    image: ele-fashion-hub:local
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
